@@ -1,0 +1,41 @@
+<!-- Edited by Younghoe, Ahn (yhahn@itwise.co.kr) 		-->
+<!-- 	last modified at 09:17 on June 7th, 2010		-->
+<project name="TOBY Database" basedir=".">
+
+	<!-- =================================
+          target: HSQL 데이터베이스 시작
+         ================================= -->
+	<target name="Start the Hsql">
+		<java classname="org.hsqldb.Server"
+			classpath="../WEB-INF/lib/hsqldb.jar" fork="true">
+			<arg value="-database.0" />
+			<arg value="data/mydb" />
+			<arg value="-dbname.0" />
+			<arg value="mydb" />
+		</java>
+	</target>
+
+	<!-- =================================
+          target: HSQL 데이터베이스 종료
+         ================================= -->
+	<target name="Stop the Hsql">
+		<sql driver="org.hsqldb.jdbcDriver"
+			classpath="../WEB-INF/lib/hsqldb.jar"
+			password="" url="jdbc:hsqldb:hsql://localhost/mydb" userid="sa">
+        	SHUTDOWN
+        </sql>
+	</target>
+
+	<!-- =================================
+          target: MYDB 데이터베이스(테이블/데이터) 초기화
+         ================================= -->
+	<target name="Initialize the mydb database">
+		<sql driver="org.hsqldb.jdbcDriver"
+			url="jdbc:hsqldb:hsql://localhost/mydb" userid="sa"
+			password="" classpath="../WEB-INF/lib/hsqldb.jar" >
+			<transaction>SET PROPERTY "sql.enforce_strict_size" TRUE</transaction>
+			<transaction src="createTables.sql" />
+		</sql>
+	</target>
+
+</project>

@@ -9,9 +9,16 @@ import java.sql.SQLException;
 import springbook.user.domain.User;
 
 public class UserDao {
+	
+	//private SimpleConnectionMaker simpleConnectionMaker;
+	private ConnectionMaker connectionMaker;
+	
+	public UserDao(ConnectionMaker connectionMaker){
+		this.connectionMaker = connectionMaker;
+	}
+	
 	public void add(User user) throws ClassNotFoundException, SQLException{
-		Class.forName("org.hsqldb.jdbcDriver");
-		Connection c = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/mydb", "sa", "");
+		Connection c = connectionMaker.makeConnection();
 		
 		PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?, ?, ?)");
 		ps.setString(1, user.getId());
@@ -25,8 +32,7 @@ public class UserDao {
 	}
 	
 	public User get(String id) throws ClassNotFoundException, SQLException{
-		Class.forName("org.hsqldb.jdbcDriver");
-		Connection c = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/mydb", "sa", "");
+		Connection c = connectionMaker.makeConnection();
 		
 		PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
 		ps.setString(1, id);
@@ -46,4 +52,5 @@ public class UserDao {
 		
 		return user;
 	}
+	
 }

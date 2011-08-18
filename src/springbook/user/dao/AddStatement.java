@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import springbook.user.domain.User;
 
-public class AddStatement implements StatementStartegy {
+public class AddStatement implements StatementStrategy {
 
 	private User user;
 	

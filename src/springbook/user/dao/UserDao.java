@@ -21,11 +21,19 @@ public class UserDao {
 	}
 	
 	public void deleteAll() throws SQLException{
-		StatementStartegy st = new DeleteAllStatement();
-		jdbcContextWithStatementStartegy(st);
+		StatementStrategy st = new DeleteAllStatement();
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+					@Override
+					public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+						PreparedStatement ps = c.prepareStatement("delete from users");
+						return ps;
+					}
+				}
+		);
 	}
 
-	private void jdbcContextWithStatementStartegy(StatementStartegy strategy) throws SQLException {
+	private void jdbcContextWithStatementStrategy(StatementStrategy strategy) throws SQLException {
 		Connection c = null;
 		PreparedStatement ps = null;
 		try {
@@ -44,8 +52,8 @@ public class UserDao {
 	
 	public void add(final User user) throws ClassNotFoundException, SQLException{
 			
-		jdbcContextWithStatementStartegy(
-				new StatementStartegy() {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
 					@Override
 					public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
 						PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?, ?, ?)");

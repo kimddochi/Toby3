@@ -28,6 +28,25 @@ public class JdbcContext {
 		);
 	}
 	
+	public void executeSql(final String query, final Object... args) throws SQLException {
+		workWithStatementStrategy(
+				new StatementStrategy() {
+					@Override
+					public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+						PreparedStatement ps = c.prepareStatement(query);
+						
+						Object obj = args.getClass();
+						System.out.println("args = "+args);
+						System.out.println("obj = "+obj);
+//						for(int i=0; i<args.length; i++){
+//							ps.setString(1, user.getId());
+//						}
+						return ps;
+					}
+				}
+		);
+	}
+	
 	public void workWithStatementStrategy(StatementStrategy stmt) throws SQLException{
 		Connection c = null;
 		PreparedStatement ps = null;

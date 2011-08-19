@@ -33,7 +33,7 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.context.support-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.core-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.expression-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.jdbc-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.jdbc-3.0.5.RELEASE.jar" sourcepath="/Volumes/Data/Spring/Spring-src/spring-framework-3.0.5.RELEASE/src/org.springframework.jdbc-sources-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.test-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.transaction-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/slf4j-api-1.5.0.jar"/>

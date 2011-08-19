@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import springbook.user.domain.User;
 
@@ -25,12 +26,17 @@ public class UserDao {
 		this.dataSource = dataSource;
 	}
 	
+	
 	public void deleteAll() throws SQLException{
 		this.jdbcContext.executeSql("delete from users");
 	}
 	
+//	public void add(final User user) throws ClassNotFoundException, SQLException{
+//		this.jdbcContext.executeSql("insert into users(id, name, password) values(?, ?, ?)", user.getId());
+//	}
+
 	public void add(final User user) throws ClassNotFoundException, SQLException{
-		
+			
 		this.jdbcContext.workWithStatementStrategy(
 				new StatementStrategy() {
 					@Override
@@ -44,22 +50,6 @@ public class UserDao {
 				}
 		);
 	}
-
-//	public void add(final User user) throws ClassNotFoundException, SQLException{
-//			
-//		this.jdbcContext.workWithStatementStrategy(
-//				new StatementStrategy() {
-//					@Override
-//					public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-//						PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?, ?, ?)");
-//						ps.setString(1, user.getId());
-//						ps.setString(2, user.getName());
-//						ps.setString(3, user.getPassword());
-//						return ps;
-//					}
-//				}
-//		);
-//	}
 
 	public int getCount() throws SQLException{
 		Connection c = null;

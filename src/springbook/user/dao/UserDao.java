@@ -26,20 +26,11 @@ public class UserDao {
 	}
 	
 	public void deleteAll() throws SQLException{
-		StatementStrategy st = new DeleteAllStatement();
-		this.jdbcContext.workWithStatementStrategy(
-				new StatementStrategy() {
-					@Override
-					public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-						PreparedStatement ps = c.prepareStatement("delete from users");
-						return ps;
-					}
-				}
-		);
+		this.jdbcContext.executeSql("delete from users");
 	}
-
+	
 	public void add(final User user) throws ClassNotFoundException, SQLException{
-			
+		
 		this.jdbcContext.workWithStatementStrategy(
 				new StatementStrategy() {
 					@Override
@@ -53,6 +44,22 @@ public class UserDao {
 				}
 		);
 	}
+
+//	public void add(final User user) throws ClassNotFoundException, SQLException{
+//			
+//		this.jdbcContext.workWithStatementStrategy(
+//				new StatementStrategy() {
+//					@Override
+//					public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+//						PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?, ?, ?)");
+//						ps.setString(1, user.getId());
+//						ps.setString(2, user.getName());
+//						ps.setString(3, user.getPassword());
+//						return ps;
+//					}
+//				}
+//		);
+//	}
 
 	public int getCount() throws SQLException{
 		Connection c = null;

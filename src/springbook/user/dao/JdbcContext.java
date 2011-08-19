@@ -6,12 +6,26 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import springbook.user.domain.User;
+
 public class JdbcContext {
 	
 	private DataSource dataSource;
 	
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
+	}
+
+	public void executeSql(final String query) throws SQLException {
+		workWithStatementStrategy(
+				new StatementStrategy() {
+					@Override
+					public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+						PreparedStatement ps = c.prepareStatement(query);
+						return ps;
+					}
+				}
+		);
 	}
 	
 	public void workWithStatementStrategy(StatementStrategy stmt) throws SQLException{

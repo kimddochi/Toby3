@@ -11,46 +11,16 @@ import org.springframework.jdbc.core.RowMapper;
 
 import springbook.user.domain.User;
 
-public class UserDao {
-	
-	private JdbcTemplate jdbcTemplate;
-	
-	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-	
-	private RowMapper<User> userMapper = new RowMapper<User>() {
-		@Override
-		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-			User user = new User();
-			user.setId(rs.getString("id"));
-			user.setName(rs.getString("name"));
-			user.setPassword(rs.getString("password"));
-			return user;
-		}
-	};
+public interface UserDao {
 
-	public void deleteAll(){
-		this.jdbcTemplate.update("delete from users");
-	}
+	void deleteAll();
 
-	public void add(final User user){
-		this.jdbcTemplate.update("insert into users(id, name, password) values(?, ?, ?)",
-				user.getId(),
-				user.getName(),
-				user.getPassword());
-	}
+	void add(final User user);
 
-	public int getCount() throws SQLException{
-		return this.jdbcTemplate.queryForInt("select count(*) from users");
-	}
+	int getCount() throws SQLException;
 	
-	public User get(String id){
-		return this.jdbcTemplate.queryForObject("select * from users where id = ?", new Object[] {id}, this.userMapper);
-	}
+	User get(String id);
 
-	public List<User> getAll() {
-		return this.jdbcTemplate.query("select * from users", this.userMapper);
-	}
+	List<User> getAll();
 	
 }

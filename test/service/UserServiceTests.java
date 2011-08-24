@@ -9,18 +9,13 @@ import static springbook.user.service.UserService.MIN_RECOMMEND_FOR_GOLD;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import springbook.user.dao.UserDao;
 import springbook.user.domain.Level;
@@ -33,7 +28,7 @@ public class UserServiceTests {
 	
 	@Autowired private UserService userService;
 	@Autowired private UserDao userDao;
-	@Autowired private DataSource dataSource;
+	@Autowired private PlatformTransactionManager transactionManager;
 	
 	List<User> users = null;
 
@@ -113,7 +108,7 @@ public class UserServiceTests {
 		
 		UserService testUserService = new TestUserService(users.get(3).getId());  //스태틱클래스인 TestUserService클래스의 생성자에 exception을 발생할 id를 셋팅한다.
 		testUserService.setUserDao(this.userDao); //TestUserService클래스에서 상속하는 UserService의 수정자 메소드에 DI를 한다.
-		testUserService.setDataSource(dataSource);
+		testUserService.setTransactionManager(transactionManager);
 		
 		userDao.deleteAll();
 		for(User user : users) userDao.add(user);
